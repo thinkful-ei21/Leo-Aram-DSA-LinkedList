@@ -20,7 +20,7 @@ function main(){
 
   SLL.insertAt('Kat',2);
 
-  SLL.removeElement('Tauhinda');
+  // SLL.removeElement('Tauhinda');
 
   // JSON.stringify(SLL);
   // console.log(util.inspect(SLL, false, null));
@@ -30,18 +30,25 @@ function main(){
   displayList(SLL);
   findPrev('Helo', SLL);
   findLast(SLL);
+  findThirdFromLast(SLL);
+  findMid(SLL);
+
+  console.log(util.inspect(JSON.stringify(reverseList(SLL.head))));
+
 }
+
+main();
+
 
 
 function listSize(list){
-  console.log(list.size);
+  console.log('the list size is '+list.size);
 }
-
 
 function isEmpty(list){
   if(list.size === 0){
-    console.log('true');
-  }else{console.log('false');}
+    console.log('the list is empty');
+  }else{console.log('the list is not empty');}
 }
 
 function displayList(list){
@@ -51,7 +58,7 @@ function displayList(list){
     str += curr.element + ' ';
     curr = curr.next;
   }
-  console.log(str);
+  console.log('list= '+str);
 }
 
 function findPrev(element, list){
@@ -65,9 +72,8 @@ function findPrev(element, list){
     prev= curr;
     curr=curr.next;
   }
-  console.log(prev.element);
+  console.log(prev.element + ` is before ${element}`);
 }
-
 
 function findLast(list){
   let curr = list.head;
@@ -77,7 +83,47 @@ function findLast(list){
   while(curr.next !== null) {
     curr=curr.next;
   }
-  console.log(curr.element);
+  console.log(curr.element+ ' is last');
 }
 
-main();
+
+function reverseList(head, parent){
+  let result = parent || {};
+  if (head) {
+    let child = head.next;
+    head.next = parent;
+    result = reverseList(child, head);
+  }
+  return result;
+}
+
+
+function findThirdFromLast(list){
+  let curr = list.head;
+  let prev;
+  if (!list.head){
+    return null;
+  }
+  while(curr.next.next !== null) {
+    prev=curr;
+    curr=curr.next;
+  }
+  console.log(prev.element + ' is 3rd from last');
+}
+
+function findMid(list){
+  let curr = list.head;
+  let mid=list.head;
+  let it=0;
+  if (!list.head){
+    return null;
+  }
+  while(curr.next !== null) {
+    it++;
+    if(it%2===0){
+      mid=mid.next;
+    }
+    curr=curr.next;
+  }
+  console.log(mid.element + ' is mid');
+}
